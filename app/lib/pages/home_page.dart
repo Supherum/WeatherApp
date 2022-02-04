@@ -1,3 +1,6 @@
+import 'package:app/custom_widget/information_items.dart';
+import 'package:app/custom_widget/slive_header_delegate.dart';
+import 'package:app/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,35 +14,29 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _HeaderScrollVew()
-    );
-  }
-
-  Widget _HeaderScrollVew() {
-    return CustomScrollView(
+        body: CustomScrollView(
       slivers: [
-        SliverAppBar(
-          flexibleSpace: FlexibleSpaceBar(
-            background: Image.asset(
-              'assets/images/2.jpg',
-              fit: BoxFit.cover,
-            ),
-            title: Text('22ºC',style: TextStyle(fontSize: 40),),
-            centerTitle: true,
-          ),
-          expandedHeight: 250,
-          floating: false,
+        SliverPersistentHeader(
+          delegate: SliveHeaderDelegate(title: '22º'),
           pinned: true,
         ),
-        const SliverFillRemaining(
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
-            child: Center(
-              child: Text('Texto Relleno'),
-            ),
+        SliverFillRemaining(
+          hasScrollBody: true,
+          child: Column(
+            children: [
+              InformationItems().dateLocation(context),
+              Divider(
+                thickness: 1,
+                color: ColorStyles.colorLightGrey,
+              ),
+              Container(
+                color: ColorStyles.colorWhite,
+              )
+            ],
           ),
-        ),
+        )
       ],
-    );
+    ));
   }
+
 }
