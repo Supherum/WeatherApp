@@ -1,27 +1,25 @@
 import 'package:app/styles/color_styles.dart';
 import 'package:app/styles/font_styles.dart';
-import 'package:app/styles/padding_styles.dart';
+import 'package:app/styles/static_data.dart';
 import 'package:flutter/material.dart';
 
 class InformationItems {
-
-  
-  Widget dateLocation(context) {
+  Widget dateAndLocationWidget(context, String day, String location) {
     return SizedBox(
       height: 80,
       width: MediaQuery.of(context).size.width,
       child: Container(
           color: ColorStyles.colorWhite,
           child: Padding(
-            padding: EdgeInsets.only(left: PaddingStyle.bodyPadding),
+            padding: EdgeInsets.only(left: StaticData.bodyPadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                    margin: EdgeInsets.only(bottom: 3,top: 5),
+                    margin: const EdgeInsets.only(bottom: 3, top: 5),
                     child: Text(
-                      'Jueves 3 de Febrero',
+                      day,
                       style: FontSyles.dayStyle,
                     )),
                 Row(
@@ -31,7 +29,7 @@ class InformationItems {
                       color: ColorStyles.colorLightGrey,
                     ),
                     Text(
-                      'Sevilla, Triana',
+                      location,
                       style: FontSyles.locationStyle,
                     )
                   ],
@@ -42,4 +40,82 @@ class InformationItems {
     );
   }
 
+  Widget smallWheaterInformation(
+      double withTotal, String title, Widget icon, String info) {
+    return SizedBox(
+      width: withTotal,
+      height: 70,
+      child: Container(
+        child: Padding(
+          padding: EdgeInsets.all(StaticData.boxInformationPadding),
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 5),
+                child: Row(
+                  children: [
+                    icon,
+                    Container(
+                        margin: const EdgeInsets.only(left: 6),
+                        child: Text(title))
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Text(
+                  info,
+                  style: FontSyles.weatherResults,
+                ),
+              )
+            ],
+          ),
+        ),
+        decoration: BoxDecoration(
+            border: Border.all(color: ColorStyles.colorLightGrey, width: 0),
+            color: ColorStyles.colorWhite,
+            borderRadius: BorderRadius.all(
+                Radius.circular(StaticData.boxInformationBorder)),
+            boxShadow: const [BoxShadow(color: Colors.black38, blurRadius: 5)]),
+      ),
+    );
+  }
+
+  Widget weekItemInformation(
+      double size, String dayName, String avrgTemp, Widget icon) {
+    return Container(
+      margin: const EdgeInsets.only(left: 10),
+      child: SizedBox(
+        width: size,
+        height: 85,
+        child: Container(
+          child: Padding(
+            padding: EdgeInsets.all(StaticData.boxInformationPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  dayName,
+                  style: FontSyles.dayName,
+                ),
+                icon,
+                Text(
+                  avrgTemp,
+                  style: FontSyles.temperatureDay,
+                )
+              ],
+            ),
+          ),
+          decoration: BoxDecoration(
+              border: Border.all(color: ColorStyles.colorLightGrey, width: 0),
+              color: ColorStyles.colorWhite,
+              borderRadius: BorderRadius.all(
+                  Radius.circular(StaticData.boxInformationBorder)),
+              boxShadow: const [
+                BoxShadow(color: Colors.black38, blurRadius: 3)
+              ]),
+        ),
+      ),
+    );
+  }
 }
