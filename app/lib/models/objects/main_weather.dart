@@ -13,8 +13,8 @@ class Main {
   late final double tempMax;
   late final int pressure;
   late final int humidity;
-  
-  Main.fromJson(Map<String, dynamic> json){
+
+  Main.fromJson(Map<String, dynamic> json) {
     temp = json['temp'];
     feelsLike = json['feels_like'];
     tempMin = json['temp_min'];

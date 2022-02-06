@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/rendering/sliver_persistent_header.dart';
 
 class SliveHeaderDelegate implements SliverPersistentHeaderDelegate {
-  SliveHeaderDelegate({required this.title, required this.size});
+  SliveHeaderDelegate(
+      {required this.title, required this.size, required this.state});
 
   final String title;
   final double size;
+  final String state;
 
   @override
   Widget build(
@@ -16,12 +18,19 @@ class SliveHeaderDelegate implements SliverPersistentHeaderDelegate {
         'assets/images/2.jpg',
         fit: BoxFit.cover,
       ),
-      Container(
-          child: Text(
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
             title,
-            style: FontSyles.headerStyle(40),
+            style: FontSyles.headerStyle(50),
           ),
-          alignment: Alignment.center),
+          Text(
+            state,
+            style: FontSyles.headerStyleStatus(25),
+          )
+        ],
+      )
     ]);
   }
 

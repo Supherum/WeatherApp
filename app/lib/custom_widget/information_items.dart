@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class InformationItems {
   Widget dateAndLocationWidget(context, String day, String location) {
     return SizedBox(
-      height: 80,
+      height: 90,
       width: MediaQuery.of(context).size.width,
       child: Container(
           color: ColorStyles.colorWhite,
@@ -81,10 +81,10 @@ class InformationItems {
     );
   }
 
-  Widget weekItemInformation(
-      double size, String dayName, String avrgTemp, Widget icon) {
+  Widget weekItemInformation(double size, String dayName, String avrgTemp,
+      Widget icon, double margLeft) {
     return Container(
-      margin: const EdgeInsets.only(left: 10),
+      margin: EdgeInsets.only(left: margLeft),
       child: SizedBox(
         width: size,
         height: 85,
@@ -113,6 +113,42 @@ class InformationItems {
                   Radius.circular(StaticData.boxInformationBorder)),
               boxShadow: const [
                 BoxShadow(color: Colors.black38, blurRadius: 3)
+              ]),
+        ),
+      ),
+    );
+  }
+
+  Widget weatherInformationForHours(double sizeTotal, String hour, Widget icon,
+      String temp, double marginTop) {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(top: marginTop),
+        width: sizeTotal * 4 / 5,
+        height: 35,
+        child: Container(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: StaticData.boxInformationPadding, horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(hour),
+                icon,
+                Text(
+                  temp,
+                  style: FontSyles.weatherSmallResults,
+                )
+              ],
+            ),
+          ),
+          decoration: BoxDecoration(
+              border: Border.all(color: ColorStyles.colorLightGrey, width: 0),
+              color: ColorStyles.colorWhite,
+              borderRadius: BorderRadius.all(
+                  Radius.circular(StaticData.boxInformationBorder)),
+              boxShadow: const [
+                BoxShadow(color: Colors.black38, blurRadius: 1)
               ]),
         ),
       ),

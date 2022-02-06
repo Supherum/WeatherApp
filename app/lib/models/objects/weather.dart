@@ -9,8 +9,8 @@ class Weather {
   late final String main;
   late final String description;
   late final String icon;
-  
-  Weather.fromJson(Map<String, dynamic> json){
+
+  Weather.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     main = json['main'];
     description = json['description'];

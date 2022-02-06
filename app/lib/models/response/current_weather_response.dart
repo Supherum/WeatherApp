@@ -1,4 +1,3 @@
-
 import 'package:app/models/objects/clouds.dart';
 import 'package:app/models/objects/coord.dart';
 import 'package:app/models/objects/main_weather.dart';
@@ -35,10 +34,11 @@ class CurrentWeatherResponse {
   late final int id;
   late final String name;
   late final int cod;
-  
-  CurrentWeatherResponse.fromJson(Map<String, dynamic> json){
+
+  CurrentWeatherResponse.fromJson(Map<String, dynamic> json) {
     coord = Coord.fromJson(json['coord']);
-    weather = List.from(json['weather']).map((e)=>Weather.fromJson(e)).toList();
+    weather =
+        List.from(json['weather']).map((e) => Weather.fromJson(e)).toList();
     base = json['base'];
     main = Main.fromJson(json['main']);
     visibility = json['visibility'];
@@ -55,7 +55,7 @@ class CurrentWeatherResponse {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['coord'] = coord.toJson();
-    _data['weather'] = weather.map((e)=>e.toJson()).toList();
+    _data['weather'] = weather.map((e) => e.toJson()).toList();
     _data['base'] = base;
     _data['main'] = main.toJson();
     _data['visibility'] = visibility;
@@ -70,8 +70,3 @@ class CurrentWeatherResponse {
     return _data;
   }
 }
-
-
-
-
-

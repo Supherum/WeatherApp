@@ -1,6 +1,10 @@
 import 'package:app/custom_widget/information_items.dart';
 import 'package:app/custom_widget/slive_header_delegate.dart';
+import 'package:app/models/response/current_weather_response.dart';
+import 'package:app/models/response/forecast_weather_response.dart';
+import 'package:app/services/weather_services.dart';
 import 'package:app/styles/color_styles.dart';
+import 'package:app/styles/font_styles.dart';
 import 'package:app/styles/static_data.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +17,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+
   late double heightTotal = MediaQuery.of(context).size.height;
   late double withTotal = MediaQuery.of(context).size.width;
+  late Future<CurrentWeatherResponse> currentWeather;
+  late Future<ForeCastResponse> forecast;
+
+  @override
+  void initState() {
+    currentWeather = WeatherServices().getCurrentWeaher("33", "-94");
+    //forecast = WeatherServices().getForecast("33", "-94");
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -25,121 +39,185 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverPersistentHeader(
-            delegate: SliveHeaderDelegate(title: '22º', size: heightTotal / 3),
-            pinned: true,
-          ),
-          SliverFillRemaining(
-            fillOverscroll: true,
-            hasScrollBody: true,
-            child: Container(
-              color: ColorStyles.colorWhite,
-              child: Column(
-                children: [
+      backgroundColor: ColorStyles.colorWhite,
+      body: FutureBuilder<CurrentWeatherResponse>(
+        future: currentWeather,
+        builder: (context, snapshot) {
+          if (snapshot.hasData!) {
+            var info = snapshot.data!;
+            return CustomScrollView(
+              slivers: [
+                SliverPersistentHeader(
+                  delegate: SliveHeaderDelegate(
+                      title: info.main.temp.round().toString(),
+                      size: heightTotal * 2 / 5,
+                      state: info.weather[0].main),
+                  pinned: true,
+                ),
+                SliverList(
+                    delegate: SliverChildListDelegate([
                   InformationItems().dateAndLocationWidget(
                       context, "Jueves 3 de Febrero", "Sevilla, Triana"),
                   Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: ColorStyles.colorLightGrey,
-                  ),
+                      height: 1,
+                      thickness: 1,
+                      color: ColorStyles.colorLightGrey),
                   Container(
-                    margin: const EdgeInsets.only(top: 15),
+                    margin: const EdgeInsets.only(top: 40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         InformationItems().smallWheaterInformation(
                             withTotal / 3,
-                            'Mínima',
+                            'Min',
                             Image.asset('assets/icons/hot.png',
                                 width: 20, height: 20),
-                            '15ºC'),
+                            info.main.tempMin.round().toString() + "ºC"),
                         InformationItems().smallWheaterInformation(
                             withTotal / 3,
-                            'Máxima',
+                            'Max',
                             Image.asset('assets/icons/hot.png',
                                 width: 20, height: 20),
-                            '24ºC')
+                            info.main.tempMax.round().toString() + "ºC")
                       ],
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 15),
+                    margin: const EdgeInsets.only(top: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         InformationItems().smallWheaterInformation(
                             withTotal / 3,
-                            'Viento',
+                            'Wind',
                             const Icon(
                               Icons.air,
                               size: 20,
                               color: Colors.black87,
                             ),
-                            '18km/h'),
+                            info.wind.speed.round().toString() + "hm/h"),
                         InformationItems().smallWheaterInformation(
                             withTotal / 3,
-                            'Humedad',
+                            'Humidity',
                             Image.asset('assets/icons/humidity.png',
                                 width: 20, height: 20),
-                            '60%')
+                            info.main.humidity.round().toString() + "%")
                       ],
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 15),
+                    margin: const EdgeInsets.only(top: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         InformationItems().smallWheaterInformation(
                             withTotal / 3,
-                            'Presión',
+                            'Pressure',
                             const Icon(
                               Icons.ac_unit,
                               size: 20,
                               color: Colors.black87,
                             ),
-                            '900hPa'),
+                            info.main.pressure.round().toString() + 'hPa'),
                         InformationItems().smallWheaterInformation(
                             withTotal / 3,
-                            'Visibilidad',
+                            'Visibility',
                             const Icon(
                               Icons.remove_red_eye_outlined,
                               size: 20,
                               color: Colors.black87,
                             ),
-                            '1.4km'),
+                            double.parse((info.visibility / 1000)
+                                        .toStringAsFixed(1))
+                                    .toString() +
+                                'Km'),
                       ],
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 15),
-                    child: const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Próximos días:'),
+                  Padding(
+                    padding: EdgeInsets.only(left: withTotal / 9),
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 50, bottom: 10),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Próximos días :',
+                          style: FontSyles.sectionText,
+                        ),
+                      ),
                     ),
                   ),
                   Container(
-                      margin: EdgeInsets.only(top: 10),
+                      margin: const EdgeInsets.only(top: 10),
                       child: Row(
                         children: [
-                          InformationItems().weekItemInformation(
-                              withTotal / 6,
-                              "Lunes",
-                              "19ºC",
-                              const Icon(
-                                Icons.cloud,
-                                color: Colors.black54,
-                              )),
+                          Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                children: [
+                                  InformationItems().weekItemInformation(
+                                      withTotal / 6,
+                                      "Lunes",
+                                      "19ºC",
+                                      const Icon(
+                                        Icons.cloud,
+                                        color: Colors.black54,
+                                      ),
+                                      withTotal / 9),
+                                  InformationItems().weekItemInformation(
+                                      withTotal / 6,
+                                      "Lunes",
+                                      "19ºC",
+                                      const Icon(
+                                        Icons.cloud,
+                                        color: Colors.black54,
+                                      ),
+                                      10),
+                                ],
+                              ))
                         ],
                       )),
-                ],
-              ),
-            ),
-          )
-        ],
+                  Padding(
+                    padding: EdgeInsets.only(left: withTotal / 9),
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 50, bottom: 10),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Por horas :',
+                          style: FontSyles.sectionText,
+                        ),
+                      ),
+                    ),
+                  ),
+                  InformationItems().weatherInformationForHours(
+                      withTotal,
+                      "16:00",
+                      Icon(
+                        Icons.cloud,
+                        size: 23,
+                      ),
+                      "19ºC",
+                      10),
+                  InformationItems().weatherInformationForHours(
+                      withTotal,
+                      "16:00",
+                      Icon(
+                        Icons.cloud,
+                        size: 23,
+                      ),
+                      "19ºC",
+                      10)
+                ])),
+              ],
+            );
+          }
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
       bottomNavigationBar: _bottonNavbar(),
     );

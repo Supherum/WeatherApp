@@ -1,4 +1,3 @@
-
 class Wind {
   Wind({
     required this.speed,
@@ -6,8 +5,8 @@ class Wind {
   });
   late final double speed;
   late final int deg;
-  
-  Wind.fromJson(Map<String, dynamic> json){
+
+  Wind.fromJson(Map<String, dynamic> json) {
     speed = json['speed'];
     deg = json['deg'];
   }

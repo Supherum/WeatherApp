@@ -9,12 +9,12 @@ class Sys {
   });
   late final int type;
   late final int id;
-  late final double message;
+  late final dynamic message;
   late final String country;
   late final int sunrise;
   late final int sunset;
-  
-  Sys.fromJson(Map<String, dynamic> json){
+
+  Sys.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     id = json['id'];
     message = json['message'];
