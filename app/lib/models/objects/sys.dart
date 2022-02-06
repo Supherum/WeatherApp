@@ -7,12 +7,12 @@ class Sys {
     required this.sunrise,
     required this.sunset,
   });
-  late final int type;
-  late final int id;
+  late final dynamic type;
+  late final dynamic id;
   late final dynamic message;
   late final String country;
-  late final int sunrise;
-  late final int sunset;
+  late final dynamic sunrise;
+  late final dynamic sunset;
 
   Sys.fromJson(Map<String, dynamic> json) {
     type = json['type'];

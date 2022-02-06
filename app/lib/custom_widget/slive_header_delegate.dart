@@ -26,7 +26,7 @@ class SliveHeaderDelegate implements SliverPersistentHeaderDelegate {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            title,
+            title + "ºC",
             style: FontSyles.headerStyle(50),
           ),
           Text(

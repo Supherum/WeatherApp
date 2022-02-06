@@ -7,12 +7,12 @@ class Main {
     required this.pressure,
     required this.humidity,
   });
-  late final double temp;
-  late final double feelsLike;
-  late final double tempMin;
-  late final double tempMax;
-  late final int pressure;
-  late final int humidity;
+  late final dynamic temp;
+  late final dynamic feelsLike;
+  late final dynamic tempMin;
+  late final dynamic tempMax;
+  late final dynamic pressure;
+  late final dynamic humidity;
 
   Main.fromJson(Map<String, dynamic> json) {
     temp = json['temp'];

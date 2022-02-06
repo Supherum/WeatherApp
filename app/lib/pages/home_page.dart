@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    currentWeather = WeatherServices().getCurrentWeaher("33", "-94");
+    currentWeather = WeatherServices().getCurrentWeaher("58", "-133");
     //forecast = WeatherServices().getForecast("33", "-94");
     super.initState();
   }
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
       body: FutureBuilder<CurrentWeatherResponse>(
         future: currentWeather,
         builder: (context, snapshot) {
-          if (snapshot.hasData!) {
+          if (snapshot.hasData) {
             var info = snapshot.data!;
             return CustomScrollView(
               slivers: [
@@ -154,28 +154,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Container(
                               margin: const EdgeInsets.only(top: 10),
-                              child: Row(
-                                children: [
-                                  InformationItems().weekItemInformation(
-                                      withTotal / 6,
-                                      "Lunes",
-                                      "19ºC",
-                                      const Icon(
-                                        Icons.cloud,
-                                        color: Colors.black54,
-                                      ),
-                                      withTotal / 9),
-                                  InformationItems().weekItemInformation(
-                                      withTotal / 6,
-                                      "Lunes",
-                                      "19ºC",
-                                      const Icon(
-                                        Icons.cloud,
-                                        color: Colors.black54,
-                                      ),
-                                      10),
-                                ],
-                              ))
+                              child:FutureBuilder<ForeCastResponse> )
                         ],
                       )),
                   Padding(
@@ -222,6 +201,21 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: _bottonNavbar(),
     );
+  }
+
+  Widget _dailyWeather(List<Daily> list) {
+    return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return InformationItems().weekItemInformation(
+              withTotal / 9,
+              DateTime.fromMicrosecondsSinceEpoch(list.elementAt(index).dt)
+                  .toString(),
+              list.elementAt(index).temp.toString(),
+              Icon(Icons.cloud),
+              10);
+        });
   }
 
   Widget _bottonNavbar() {

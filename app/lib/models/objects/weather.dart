@@ -5,7 +5,7 @@ class Weather {
     required this.description,
     required this.icon,
   });
-  late final int id;
+  late final dynamic id;
   late final String main;
   late final String description;
   late final String icon;
