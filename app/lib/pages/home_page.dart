@@ -51,7 +51,8 @@ class _HomePageState extends State<HomePage> {
                   delegate: SliveHeaderDelegate(
                       title: info.main.temp.round().toString(),
                       size: heightTotal * 2 / 5,
-                      state: info.weather[0].main),
+                      state: info.weather[0].main,
+                      backGround: info.weather[0].main),
                   pinned: true,
                 ),
                 SliverList(
