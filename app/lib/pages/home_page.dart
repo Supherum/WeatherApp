@@ -347,4 +347,16 @@ class _HomePageState extends State<HomePage> {
         " " +
         DateFormat.MMMM().format(dt).toString();
   }
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+    ),
+    Text(
+      'Index 1: Business',
+    ),
+    Text(
+      'Index 2: School',
+    ),
+  ];
 }
