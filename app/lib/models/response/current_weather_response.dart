@@ -25,15 +25,15 @@ class CurrentWeatherResponse {
   late final List<Weather> weather;
   late final String base;
   late final Main main;
-  late final int visibility;
+  late final dynamic visibility;
   late final Wind wind;
   late final Clouds clouds;
-  late final int dt;
+  late final dynamic dt;
   late final Sys sys;
-  late final int timezone;
-  late final int id;
+  late final dynamic timezone;
+  late final dynamic id;
   late final String name;
-  late final int cod;
+  late final dynamic cod;
 
   CurrentWeatherResponse.fromJson(Map<String, dynamic> json) {
     coord = Coord.fromJson(json['coord']);

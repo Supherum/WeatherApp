@@ -87,7 +87,6 @@ class InformationItems {
       margin: EdgeInsets.only(left: margLeft),
       child: SizedBox(
         width: size,
-        height: 85,
         child: Container(
           child: Padding(
             padding: EdgeInsets.all(StaticData.boxInformationPadding),
@@ -107,7 +106,7 @@ class InformationItems {
             ),
           ),
           decoration: BoxDecoration(
-              border: Border.all(color: ColorStyles.colorLightGrey, width: 0),
+              border: Border.all(color: ColorStyles.colorLightGrey, width: 1),
               color: ColorStyles.colorWhite,
               borderRadius: BorderRadius.all(
                   Radius.circular(StaticData.boxInformationBorder)),
@@ -124,7 +123,7 @@ class InformationItems {
     return Center(
       child: Container(
         margin: EdgeInsets.only(top: marginTop),
-        width: sizeTotal * 4 / 5,
+        width: sizeTotal ,
         height: 35,
         child: Container(
           child: Padding(
