@@ -7,8 +7,7 @@ import 'package:app/styles/color_styles.dart';
 import 'package:app/styles/font_styles.dart';
 import 'package:app/styles/static_data.dart';
 import 'package:flutter/material.dart';
-import 'package:timeago/timeago.dart' as timeago;
-
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,7 +26,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    
     currentWeather = WeatherServices().getCurrentWeaher("58", "-133");
     forecast = WeatherServices().getForecast("58", "-133");
     super.initState();
@@ -63,7 +61,10 @@ class _HomePageState extends State<HomePage> {
                   SliverList(
                       delegate: SliverChildListDelegate([
                     InformationItems().dateAndLocationWidget(
-                        context,DateTime.fromMicrosecondsSinceEpoch( info.dt*1000).month.toString(), info.name.toString()),
+                        context,
+                        _whatDayIsToday(DateTime.fromMillisecondsSinceEpoch(
+                            info.dt * 1000)),
+                        info.name.toString()),
                     Divider(
                         height: 1,
                         thickness: 1,
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20, bottom: 35),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -140,34 +141,44 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
+                    Center(
+                      child: SizedBox(
+                        width: withTotal * 8 / 10,
+                        child: Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: ColorStyles.colorLightGrey),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.only(left: withTotal / 9),
                       child: Container(
-                        margin: const EdgeInsets.only(top: 50, bottom: 10),
+                        margin: const EdgeInsets.only(top: 35, bottom: 10),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Próximos días :',
+                            'Next Days :',
                             style: FontSyles.sectionText,
                           ),
                         ),
                       ),
                     ),
                     Container(
-                        margin: const EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10, bottom: 35),
                         child: Row(
                           children: [
                             Container(
-                                margin: EdgeInsets.only(top: 10),
+                                margin: const EdgeInsets.only(top: 10),
                                 child: FutureBuilder<ForeCastResponse>(
                                   future: forecast,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       return Container(
                                         height: 155,
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                        child: _dailyWeather(
-                                            snapshot.data!.daily),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child:
+                                            _dailyWeather(snapshot.data!.daily),
                                       );
                                     }
                                     if (snapshot.hasError) {
@@ -180,21 +191,30 @@ class _HomePageState extends State<HomePage> {
                                 ))
                           ],
                         )),
+                    Center(
+                      child: SizedBox(
+                        width: withTotal * 8 / 10,
+                        child: Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: ColorStyles.colorLightGrey),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.only(left: withTotal / 9),
                       child: Container(
-                        margin: const EdgeInsets.only(top: 50, bottom: 10),
+                        margin: const EdgeInsets.only(top: 35, bottom: 10),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Por horas :',
+                            'For Hours :',
                             style: FontSyles.sectionText,
                           ),
                         ),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 10,bottom: withTotal/6),
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
                       child: FutureBuilder<ForeCastResponse>(
                           future: forecast,
                           builder: (context, snapshot) {
@@ -229,35 +249,46 @@ class _HomePageState extends State<HomePage> {
     return SizedBox(
       height: 140,
       width: withTotal,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: list.length,
-            itemBuilder: (context, index) {
-              return InformationItems().weekItemInformation(
-                  withTotal / 5,
-                  "Day: " +DateTime.fromMillisecondsSinceEpoch(list.elementAt(index).dt*1000).day.toString() , 
-                  list.elementAt(index).temp.eve.round().toString(),
-                  Icon(Icons.cloud),
-                  10);
-            }),
-  
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            return InformationItems().weekItemInformation(
+                withTotal * 2 / 9,
+                DateFormat.EEEE().format(DateTime.fromMillisecondsSinceEpoch(
+                    list.elementAt(index).dt * 1000)),
+                list.elementAt(index).temp.eve.round().toString() + "º",
+                const Icon(Icons.cloud),
+                10);
+          }),
     );
   }
 
   Widget _hourlyWeather(List<Hourly> list) {
-    return SizedBox(
-      height: 300,
+    return Container(
+      height: 270,
+      width: withTotal,
       child: ListView.builder(
+          padding: const EdgeInsets.only(top: 0),
           itemCount: list.length,
           itemBuilder: (context, index) {
             return InformationItems().weatherInformationForHours(
                 withTotal * 8 / 10,
-                DateTime.fromMillisecondsSinceEpoch(list.elementAt(index).dt*1000).hour.toString(),
-                Icon(
+                DateFormat.E()
+                        .format(DateTime.fromMillisecondsSinceEpoch(
+                            list.elementAt(index).dt * 1000))
+                        .toString() +
+                    "  " +
+                    DateTime.fromMillisecondsSinceEpoch(
+                            list.elementAt(index).dt * 1000)
+                        .hour
+                        .toString() +
+                    ":00",
+                const Icon(
                   Icons.cloud,
                   size: 23,
                 ),
-                list.elementAt(index).feelsLike.round().toString(),
+                list.elementAt(index).feelsLike.round().toString() + "º",
                 10);
           }),
     );
@@ -300,5 +331,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  String _whatDayIsToday(DateTime dt) {
+    String s;
 
+    if (dt.day.toString().substring(1) == "1") s = "st";
+    if (dt.day.toString().substring(1) == "2")
+      s = "snd";
+    else
+      s = "th";
+
+    return DateFormat.EEEE().format(dt).toString() +
+        ", " +
+        DateFormat.d().format(dt).toString() +
+        s +
+        " " +
+        DateFormat.MMMM().format(dt).toString();
+  }
 }

@@ -111,7 +111,7 @@ class InformationItems {
               borderRadius: BorderRadius.all(
                   Radius.circular(StaticData.boxInformationBorder)),
               boxShadow: const [
-                BoxShadow(color: Colors.black38, blurRadius: 3)
+                BoxShadow(color: Colors.black38, blurRadius: 1)
               ]),
         ),
       ),
@@ -123,7 +123,7 @@ class InformationItems {
     return Center(
       child: Container(
         margin: EdgeInsets.only(top: marginTop),
-        width: sizeTotal ,
+        width: sizeTotal,
         height: 35,
         child: Container(
           child: Padding(

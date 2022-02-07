@@ -164,13 +164,13 @@ class Hourly {
   late final dynamic feelsLike;
   late final dynamic pressure;
   late final dynamic humidity;
-  late final dynamic? dewPodynamic;
-  late final dynamic? uvi;
+  late final dynamic dewPodynamic;
+  late final dynamic uvi;
   late final dynamic clouds;
   late final dynamic visibility;
   late final dynamic windSpeed;
   late final dynamic windDeg;
-  late final dynamic? windGust;
+  late final dynamic windGust;
   late final List<Weather> weather;
   late final dynamic pop;
 
@@ -250,7 +250,7 @@ class Daily {
   late final List<Weather> weather;
   late final dynamic clouds;
   late final dynamic pop;
-  late final dynamic? uvi;
+  late final dynamic uvi;
 
   Daily.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
@@ -342,7 +342,7 @@ class FeelsLike {
     required this.eve,
     required this.morn,
   });
-  late final dynamic? day;
+  late final dynamic day;
   late final dynamic night;
   late final dynamic eve;
   late final dynamic morn;
