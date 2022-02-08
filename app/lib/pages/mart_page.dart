@@ -10,8 +10,8 @@ class MartPage extends StatefulWidget {
 class _MartPageState extends State<MartPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return const Center(
+      child:  Text('Building in process'),
     );
   }
 }

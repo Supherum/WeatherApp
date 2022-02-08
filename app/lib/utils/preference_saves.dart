@@ -1,5 +1,5 @@
 // Apikey de miguel para google
-const String ApiKeyMiguel = "3298yrehfiuewhfd23849ewhfi";
+const String apiKeyMiguel = "3298yrehfiuewhfd23849ewhfi";
 
 
 /*
