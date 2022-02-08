@@ -1,8 +1,23 @@
 import 'dart:async';
 
+import 'package:app/utils/google_maps/page.dart';
+import 'package:app/utils/preference_saves.dart';
+import 'package:app/utils/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+const CameraPosition _kInitialPosition =
+    CameraPosition(target: LatLng(-33.852, 151.211), zoom: 11.0);
+
+class MapClickPage extends GoogleMapExampleAppPage {
+  MapClickPage() : super(const Icon(Icons.mouse), 'Map click');
+
+  @override
+  Widget build(BuildContext context) {
+    return const ConfigurationPage();
+  }
+}
 
 class ConfigurationPage extends StatefulWidget {
   const ConfigurationPage({Key? key}) : super(key: key);
@@ -12,44 +27,56 @@ class ConfigurationPage extends StatefulWidget {
 }
 
 class _ConfigurationPageState extends State<ConfigurationPage> {
-    Completer<GoogleMapController> _controller = Completer();
+  _ConfigurationPageState();
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
+  GoogleMapController? mapController;
+  LatLng? _lastTap;
+  LatLng? _lastLongPress;
+  String lat = "0";
 
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  @override
+  void initState() {
+    PreferenceUtils.init();
+    super.initState();
+  }
 
-   @override
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: GoogleMap(
-          mapType: MapType.satellite,
-          initialCameraPosition: _kGooglePlex,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-          onTap: (LatLng posicion) {
-            //TODO
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: const Text('To the lake!'),
-        icon: const Icon(Icons.directions_boat),
-      ),
+    final GoogleMap googleMap = GoogleMap(
+        onMapCreated: onMapCreated,
+        initialCameraPosition: _kInitialPosition,
+        onTap: (LatLng pos) {
+          setState(() {
+            _lastTap = pos;
+            PreferenceUtils.setString(LAT, pos.toString());
+            lat = PreferenceUtils.getString(LAT).toString();
+          });
+        });
+
+    final List<Widget> columnChildren = <Widget>[
+      Column(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 200.0,
+            child: googleMap,
+          ),
+          Text(_lastTap.toString()),
+          Text(lat)
+        ],
+      )
+    ];
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: columnChildren,
     );
   }
 
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  void onMapCreated(GoogleMapController controller) async {
+    setState(() {
+      mapController = controller;
+    });
   }
 }
