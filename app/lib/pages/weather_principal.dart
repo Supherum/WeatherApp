@@ -233,7 +233,7 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
         );
   }
 
-  
+  // double size, String dayName, String avrgTemp, Widget icon, double margLeft
   Widget _dailyWeather(List<Daily> list) {
     return SizedBox(
       height: 140,
@@ -253,6 +253,8 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
     );
   }
 
+
+// double sizeTotal, String hour, Widget icon,String temp, double marginTop
   Widget _hourlyWeather(List<Hourly> list) {
     return SizedBox(
       height: 270,
