@@ -17,7 +17,7 @@ class WeatherServices {
     if (response.statusCode == 200) {
       return CurrentWeatherResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('The weather could not be load susscessuflly');
+      throw Exception(response.statusCode);
     }
   }
 

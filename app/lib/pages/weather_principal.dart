@@ -5,11 +5,15 @@ import 'package:app/models/response/forecast_weather_response.dart';
 import 'package:app/services/weather_services.dart';
 import 'package:app/styles/color_styles.dart';
 import 'package:app/styles/font_styles.dart';
+import 'package:app/utils/preference_saves.dart';
+import 'package:app/utils/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class WeatherPrincipal extends StatefulWidget {
-  const WeatherPrincipal({ Key? key }) : super(key: key);
+  const WeatherPrincipal({ Key? key, required this.lat, required this.lon }) : super(key: key);
+  final String lat;
+  final String lon;
 
   @override
   _WeatherPrincipalState createState() => _WeatherPrincipalState();
@@ -23,17 +27,28 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
   late double withTotal = MediaQuery.of(context).size.width;
   late Future<CurrentWeatherResponse> currentWeather;
   late Future<ForeCastResponse> forecast;
-
+  late String? latitud;
+  late String? longitud;
+  
   @override
   void initState() {
-    currentWeather = WeatherServices().getCurrentWeaher("58", "-133");
-    forecast = WeatherServices().getForecast("58", "-133");
+    PreferenceUtils.init();
+
+      currentWeather = WeatherServices().getCurrentWeaher(widget.lat,widget.lat);
+      forecast = WeatherServices().getForecast(widget.lat,widget.lon);
+      _initSecondary();
     super.initState();
   }
 
+  _initSecondary(){
+    latitud=PreferenceUtils.getString(LAT);
+    longitud=PreferenceUtils.getString(LON);
+  }
+  
   
   @override
   Widget build(BuildContext context) {
+   
     return  FutureBuilder<CurrentWeatherResponse>(
           future: currentWeather,
           builder: (context, snapshot) {
@@ -204,6 +219,8 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
                         ),
                       ),
                     ),
+                     Text(latitud.toString()),
+                    Text(longitud.toString()),
                     Container(
                       margin: const EdgeInsets.only(top: 10, bottom: 10),
                       child: FutureBuilder<ForeCastResponse>(
@@ -220,6 +237,7 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
                             }
                           }),
                     ),
+                   
                   ])),
                 ],
               );

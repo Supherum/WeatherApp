@@ -7,6 +7,8 @@ import 'package:app/pages/weather_principal.dart';
 import 'package:app/services/weather_services.dart';
 import 'package:app/styles/color_styles.dart';
 import 'package:app/styles/static_data.dart';
+import 'package:app/utils/preference_saves.dart';
+import 'package:app/utils/preferences.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,11 +26,12 @@ class _HomePageState extends State<HomePage> {
   late double withTotal = MediaQuery.of(context).size.width;
   late Future<CurrentWeatherResponse> currentWeather;
   late Future<ForeCastResponse> forecast;
+ 
+  
 
   @override
   void initState() {
-    currentWeather = WeatherServices().getCurrentWeaher("58", "-133");
-    forecast = WeatherServices().getForecast("58", "-133");
+    PreferenceUtils.init();
     super.initState();
   }
 
@@ -43,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        extendBody: true,
         backgroundColor: ColorStyles.colorWhite,
         body: _widgetOptions[_selectedIndex],
         bottomNavigationBar: _bottonNavbar(),
@@ -64,6 +68,7 @@ class _HomePageState extends State<HomePage> {
               topLeft: Radius.circular(StaticData.bottonNavbarRadius),
               topRight: Radius.circular(StaticData.bottonNavbarRadius)),
           child: BottomNavigationBar(
+            
             showSelectedLabels: false,
             showUnselectedLabels: false,
             items: const <BottomNavigationBarItem>[
@@ -89,7 +94,7 @@ class _HomePageState extends State<HomePage> {
 
 
   static const List<Widget> _widgetOptions = [
-    WeatherPrincipal(),
+    WeatherPrincipal(lat: "",lon: "",),
     MartPage(),
     ConfigurationPage(),
   ];
