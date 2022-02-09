@@ -6,7 +6,6 @@ import 'package:app/models/response/forecast_weather_response.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherServices {
-
   static const String _API_KEY = "8d699680216aea56f94ca876d7d69eb2";
 
   Future<CurrentWeatherResponse> getCurrentWeaher(
@@ -17,7 +16,7 @@ class WeatherServices {
     if (response.statusCode == 200) {
       return CurrentWeatherResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.statusCode);
+      throw Exception(lat + " -- " + lon);
     }
   }
 

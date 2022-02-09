@@ -1,15 +1,12 @@
-
-import 'package:app/models/response/current_weather_response.dart';
-import 'package:app/models/response/forecast_weather_response.dart';
 import 'package:app/pages/configuration_page.dart';
 import 'package:app/pages/mart_page.dart';
 import 'package:app/pages/weather_principal.dart';
-import 'package:app/services/weather_services.dart';
 import 'package:app/styles/color_styles.dart';
 import 'package:app/styles/static_data.dart';
 import 'package:app/utils/preference_saves.dart';
 import 'package:app/utils/preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,20 +16,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int _selectedIndex = 0;
+
+  SharedPreferences? preferences;
 
   late double heightTotal = MediaQuery.of(context).size.height;
   late double withTotal = MediaQuery.of(context).size.width;
-  late Future<CurrentWeatherResponse> currentWeather;
-  late Future<ForeCastResponse> forecast;
- 
-  
 
   @override
   void initState() {
-    PreferenceUtils.init();
     super.initState();
+    PreferenceUtils.init();
   }
 
   void _onItemTapped(int index) {
@@ -68,7 +62,6 @@ class _HomePageState extends State<HomePage> {
               topLeft: Radius.circular(StaticData.bottonNavbarRadius),
               topRight: Radius.circular(StaticData.bottonNavbarRadius)),
           child: BottomNavigationBar(
-            
             showSelectedLabels: false,
             showUnselectedLabels: false,
             items: const <BottomNavigationBarItem>[
@@ -92,9 +85,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-  static const List<Widget> _widgetOptions = [
-    WeatherPrincipal(lat: "",lon: "",),
+  static List<Widget> _widgetOptions = [
+    WeatherPrincipal(),
     MartPage(),
     ConfigurationPage(),
   ];
