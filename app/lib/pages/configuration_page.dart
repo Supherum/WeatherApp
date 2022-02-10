@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app/utils/google_maps/page.dart';
 import 'package:app/utils/preference_saves.dart';
 import 'package:app/utils/preferences.dart';
@@ -18,6 +16,8 @@ class MapClickPage extends GoogleMapExampleAppPage {
   }
 }
 
+typedef MarkerUpdateAction = Marker Function(Marker marker);
+
 class ConfigurationPage extends StatefulWidget {
   const ConfigurationPage({Key? key}) : super(key: key);
 
@@ -29,9 +29,13 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
   _ConfigurationPageState();
 
   GoogleMapController? mapController;
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  MarkerId? selectedMarker;
+
   LatLng? _lastTap;
   late String latitud = PreferenceUtils.getString(LAT)!;
   late String longitud = PreferenceUtils.getString(LON)!;
+
 
   @override
   void initState() {
@@ -46,14 +50,16 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
 
     longitud = PreferenceUtils.getString(LATLON)!.split(",")[1];
     longitud = longitud.split(")")[0];
-    longitud=longitud.substring(1,longitud.length -1);
+    longitud = longitud.substring(1, longitud.length - 1);
     PreferenceUtils.setString(LON, longitud);
   }
+  
 
   @override
   Widget build(BuildContext context) {
     final GoogleMap googleMap = GoogleMap(
         onMapCreated: onMapCreated,
+        markers: Set<Marker>.of(markers.values),
         initialCameraPosition: _kInitialPosition,
         onTap: (LatLng pos) {
           setState(() {
@@ -70,10 +76,6 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
             height: 500.0,
             child: googleMap,
           ),
-          Text(_lastTap.toString()),
-          Text(latitud + "   " + longitud),
-          Text(PreferenceUtils.getString(LAT)!),
-          Text(PreferenceUtils.getString(LON)!),
           ElevatedButton(
               onPressed: () => setState(() {
                     setLatLon();
@@ -95,4 +97,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
       mapController = controller;
     });
   }
+
+
+
 }

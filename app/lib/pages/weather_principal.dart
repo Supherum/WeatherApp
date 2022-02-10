@@ -143,7 +143,6 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
                     ],
                   ),
                 ),
-                Text(lat + " --- " + lon + "-"),
                 Center(
                   child: SizedBox(
                     width: withTotal * 8 / 10,
