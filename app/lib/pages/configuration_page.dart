@@ -46,6 +46,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
 
     longitud = PreferenceUtils.getString(LATLON)!.split(",")[1];
     longitud = longitud.split(")")[0];
+    longitud=longitud.substring(1,longitud.length -1);
     PreferenceUtils.setString(LON, longitud);
   }
 

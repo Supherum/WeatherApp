@@ -22,15 +22,15 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
   late double withTotal = MediaQuery.of(context).size.width;
   late Future<CurrentWeatherResponse> currentWeather;
   late Future<ForeCastResponse> forecast;
-  String lat = "37";
-  String lon = "-6";
+  String lat="37";
+  String lon="-6";
+
   @override
   void initState() {
     PreferenceUtils.init();
-
-    currentWeather = WeatherServices().getCurrentWeaher(lat, lat);
-    forecast = WeatherServices().getForecast(lat, lon);
     _initPreferences();
+    currentWeather = WeatherServices().getCurrentWeaher(lat, lon);
+    forecast = WeatherServices().getForecast(lat, lon);
     super.initState();
   }
 
@@ -40,8 +40,8 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
     setState(() {
       lat = latitud.toString();
       lon = longitud.toString();
-      currentWeather = WeatherServices().getCurrentWeaher(lat, lat);
-      forecast = WeatherServices().getForecast(lat, lat);
+      currentWeather = WeatherServices().getCurrentWeaher(lat, lon);
+      forecast = WeatherServices().getForecast(lat, lon);
     });
   }
 
@@ -50,7 +50,7 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
     return FutureBuilder<CurrentWeatherResponse>(
       future: currentWeather,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && lat.isNotEmpty && lon.isNotEmpty) {
           var info = snapshot.data!;
           return CustomScrollView(
             slivers: [

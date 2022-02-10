@@ -16,7 +16,7 @@ class WeatherServices {
     if (response.statusCode == 200) {
       return CurrentWeatherResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(lat + " -- " + lon);
+      throw Exception(lat + "   1" + lon+"\n"+ response.statusCode.toString());
     }
   }
 

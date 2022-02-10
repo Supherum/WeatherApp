@@ -2,7 +2,7 @@
     package="com.example.app">
    <application
         android:label="app"
-        android:name=".App"
+        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
 <meta-data android:name="com.google.android.geo.API_KEY"
