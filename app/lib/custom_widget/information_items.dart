@@ -73,7 +73,18 @@ class InformationItems {
   }
 
   Widget weekItemInformation(double size, String dayName, String avrgTemp,
-      Widget icon, double margLeft) {
+      String icon, double margLeft) {
+
+    Image newIcon;
+    if(icon=="03d" || icon =="04d" )
+    newIcon=Image.asset('https://img.icons8.com/external-flat-zulfa-mahendra/344/external-winter-winter-outdoor-flat-zulfa-mahendra-7.png',width: 20, height: 20);
+    if(icon=="01d" || icon == "02d")
+    newIcon=Image.asset('https://img.icons8.com/external-kmg-design-flat-kmg-design/344/external-sun-summer-kmg-design-flat-kmg-design.png',width: 20, height: 20);
+    if(icon=="10d" || icon == "09d")
+    newIcon=Image.asset('https://img.icons8.com/external-wanicon-flat-wanicon/344/external-rain-nature-wanicon-flat-wanicon.png',width: 20, height: 20,);
+    else
+    newIcon=Image.network('https://img.icons8.com/external-kosonicon-lineal-color-kosonicon/344/external-cloud-weather-kosonicon-lineal-color-kosonicon.png',width: 40,height: 40,);
+
     return Container(
       margin: EdgeInsets.only(left: margLeft),
       width: size,
@@ -85,7 +96,7 @@ class InformationItems {
             dayName,
             style: FontSyles.dayName,
           ),
-          icon,
+          newIcon,
           Text(
             avrgTemp,
             style: FontSyles.temperatureDay,
@@ -101,8 +112,20 @@ class InformationItems {
     );
   }
 
-  Widget weatherInformationForHours(double sizeTotal, String hour, Widget icon,
+  Widget weatherInformationForHours(double sizeTotal, String hour, String icon,
       String temp, double marginTop) {
+
+        
+    Image newIcon;
+    if(icon=="03d" || icon =="04d" )
+    newIcon=Image.asset('https://img.icons8.com/external-flat-zulfa-mahendra/344/external-winter-winter-outdoor-flat-zulfa-mahendra-7.png',width: 40, height: 40);
+    if(icon=="01d" || icon == "02d")
+    newIcon=Image.asset('https://img.icons8.com/external-kmg-design-flat-kmg-design/344/external-sun-summer-kmg-design-flat-kmg-design.png',width: 40, height: 40);
+    if(icon=="10d" || icon == "09d")
+    newIcon=Image.asset('https://img.icons8.com/external-wanicon-flat-wanicon/344/external-rain-nature-wanicon-flat-wanicon.png',width: 40, height: 40,);
+    else
+    newIcon=Image.network('https://img.icons8.com/external-kosonicon-lineal-color-kosonicon/344/external-cloud-weather-kosonicon-lineal-color-kosonicon.png',width: 40,height: 40,);
+    
     return Center(
       child: Container(
         margin: EdgeInsets.only(top: marginTop),
@@ -114,7 +137,7 @@ class InformationItems {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(hour),
-            icon,
+            newIcon,
             Text(
               temp,
               style: FontSyles.weatherSmallResults,

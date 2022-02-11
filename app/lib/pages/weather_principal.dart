@@ -256,7 +256,7 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
                 DateFormat.EEEE().format(DateTime.fromMillisecondsSinceEpoch(
                     list.elementAt(index).dt * 1000)),
                 list.elementAt(index).temp.eve.round().toString() + "º",
-                const Icon(Icons.cloud),
+                list.elementAt(index).weather.elementAt(0).icon,
                 10);
           }),
     );
@@ -292,10 +292,7 @@ class _WeatherPrincipalState extends State<WeatherPrincipal> {
                         .hour
                         .toString() +
                     ":00",
-                const Icon(
-                  Icons.cloud,
-                  size: 23,
-                ),
+                list.elementAt(index).weather.elementAt(0).icon,
                 list.elementAt(index).feelsLike.round().toString() + "º",
                 10);
           }),
