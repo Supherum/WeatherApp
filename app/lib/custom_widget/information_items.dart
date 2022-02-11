@@ -97,7 +97,6 @@ class InformationItems {
       newImage = Image.network(
           'https://img.icons8.com/external-justicon-flat-justicon/344/external-cloud-weather-justicon-flat-justicon.png');
     }
-
     return Container(
       margin: EdgeInsets.only(left: margLeft),
       width: size,
@@ -150,6 +149,7 @@ class InformationItems {
       newImage = Image.network(
           'https://img.icons8.com/external-justicon-flat-justicon/344/external-cloud-weather-justicon-flat-justicon.png');
     }
+
     return Center(
       child: Container(
         margin: EdgeInsets.only(top: marginTop),
