@@ -33,9 +33,10 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
   MarkerId? selectedMarker;
 
   LatLng? _lastTap;
+  LatLng _new = LatLng(37.37, -6.01);
+
   late String latitud = PreferenceUtils.getString(LAT)!;
   late String longitud = PreferenceUtils.getString(LON)!;
-
 
   @override
   void initState() {
@@ -53,34 +54,38 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
     longitud = longitud.substring(1, longitud.length - 1);
     PreferenceUtils.setString(LON, longitud);
   }
-  
 
   @override
   Widget build(BuildContext context) {
     final GoogleMap googleMap = GoogleMap(
         onMapCreated: onMapCreated,
-        markers: Set<Marker>.of(markers.values),
+        markers: <Marker>{_createMarker()},
         initialCameraPosition: _kInitialPosition,
         onTap: (LatLng pos) {
           setState(() {
             _lastTap = pos;
+            _new = _lastTap!;
             PreferenceUtils.setString(LATLON, pos.toString());
           });
         });
 
     final List<Widget> columnChildren = <Widget>[
-      Column(
+      Stack(
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 500.0,
+            height: MediaQuery.of(context).size.height - 40,
             child: googleMap,
           ),
-          ElevatedButton(
-              onPressed: () => setState(() {
-                    setLatLon();
-                  }),
-              child: Text('Save location'))
+          Positioned(
+            left: 25,
+            bottom: 25,
+            child: ElevatedButton(
+                onPressed: () => setState(() {
+                      setLatLon();
+                    }),
+                child: Text('Save location')),
+          ),
         ],
       )
     ];
@@ -98,6 +103,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
     });
   }
 
-
-
+  Marker _createMarker() {
+    return Marker(markerId: const MarkerId("marker"), position: _new);
+  }
 }

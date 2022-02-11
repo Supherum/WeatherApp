@@ -41,8 +41,9 @@ class SliveHeaderDelegate implements SliverPersistentHeaderDelegate {
   String _whatImage(String time, String status) {
     if (status == "Clear") return 'assets/images/1.jpg';
     if (status == "Snow") return 'assets/images/5.jpg';
-    if (status == "Rain")
-      return 'assets/images/6.jpg';
+    if (status == "Rain") return 'assets/images/6.jpg';
+    if (status == "Clouds")
+      return 'assets/images/3.jpg';
     else
       return 'assets/images/2.jpg';
   }

@@ -73,7 +73,31 @@ class InformationItems {
   }
 
   Widget weekItemInformation(double size, String dayName, String avrgTemp,
-      Widget icon, double margLeft) {
+      String icon, double margLeft) {
+    Image newImage;
+    if (icon.contains("clear")) {
+      newImage = Image.network(
+          'https://img.icons8.com/external-kmg-design-flat-kmg-design/344/external-sun-summer-kmg-design-flat-kmg-design.png');
+    }
+
+    if (icon.contains("cloud")) {
+      newImage = Image.network(
+          'https://img.icons8.com/external-justicon-flat-justicon/344/external-cloudy-weather-justicon-flat-justicon-1.png');
+    }
+
+    if (icon.contains("snow")) {
+      newImage = Image.network(
+          'https://img.icons8.com/external-flatart-icons-flat-flatarticons/344/external-snowflake-canada-independence-day-flatart-icons-flat-flatarticons-1.png');
+    }
+
+    if (icon.contains("rain")) {
+      newImage = Image.network(
+          'https://img.icons8.com/external-wanicon-flat-wanicon/344/external-rain-nature-wanicon-flat-wanicon.png');
+    } else {
+      newImage = Image.network(
+          'https://img.icons8.com/external-justicon-flat-justicon/344/external-cloud-weather-justicon-flat-justicon.png');
+    }
+
     return Container(
       margin: EdgeInsets.only(left: margLeft),
       width: size,
@@ -85,7 +109,7 @@ class InformationItems {
             dayName,
             style: FontSyles.dayName,
           ),
-          icon,
+          newImage,
           Text(
             avrgTemp,
             style: FontSyles.temperatureDay,
@@ -101,8 +125,31 @@ class InformationItems {
     );
   }
 
-  Widget weatherInformationForHours(double sizeTotal, String hour, Widget icon,
+  Widget weatherInformationForHours(double sizeTotal, String hour, String icon,
       String temp, double marginTop) {
+    Image newImage;
+    if (icon.contains("clear")) {
+      newImage = Image.network(
+          'https://img.icons8.com/external-kmg-design-flat-kmg-design/344/external-sun-summer-kmg-design-flat-kmg-design.png');
+    }
+
+    if (icon.contains("cloud")) {
+      newImage = Image.network(
+          'https://img.icons8.com/external-justicon-flat-justicon/344/external-cloudy-weather-justicon-flat-justicon-1.png');
+    }
+
+    if (icon.contains("snow")) {
+      newImage = Image.network(
+          'https://img.icons8.com/external-flatart-icons-flat-flatarticons/344/external-snowflake-canada-independence-day-flatart-icons-flat-flatarticons-1.png');
+    }
+
+    if (icon.contains("rain")) {
+      newImage = Image.network(
+          'https://img.icons8.com/external-wanicon-flat-wanicon/344/external-rain-nature-wanicon-flat-wanicon.png');
+    } else {
+      newImage = Image.network(
+          'https://img.icons8.com/external-justicon-flat-justicon/344/external-cloud-weather-justicon-flat-justicon.png');
+    }
     return Center(
       child: Container(
         margin: EdgeInsets.only(top: marginTop),
@@ -114,7 +161,7 @@ class InformationItems {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(hour),
-            icon,
+            newImage,
             Text(
               temp,
               style: FontSyles.weatherSmallResults,
